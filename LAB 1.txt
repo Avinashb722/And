@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct Day
+{
+    int date;
+    char *name;
+    char *activity;
+
+};
+void create(struct Day calender[7])
+{
+    for(int i=0;i<7;i++)
+    {
+        calender[i].name =(struct Day*)malloc(20*sizeof(char));
+        calender[i].activity =(struct Day*)malloc(50*sizeof(char));
+    }
+}
+
+void read(struct Day calender[7])
+{
+    for(int i=0;i<7;i++)
+    {
+        printf("Enter the date of the day %d  ",i+1);
+        scanf("%d",&calender[i].date);
+        printf("Enter the name of the day ");
+        scanf("%s",calender[i].name);
+        printf("Enter the activity of the day ");
+        getchar();
+        fgets(calender[i].activity,100,stdin);
+
+    }
+}
+void display(struct Day calender[7])
+{
+    for(int i=0;i<7;i++)
+    {
+        printf("%d\t%s\t%s\n",calender[i].date,calender[i].name,calender[i].activity);
+    }
+}
+void freememory(struct Day calender[7])
+{
+    for(int i=0;i<7;i++)
+    {
+        free(calender[i].name);
+        free(calender[i].activity);
+
+    }
+}
+
+int main()
+{
+    struct Day *calender=(struct Day*)malloc(7*sizeof(struct Day));
+    printf("Creating the calender\n");
+    create(calender);
+    printf("Enter the details \n");
+    read(calender);
+    printf("\nWEEKLY DETAILS\n");
+    printf("\nDATE\tNAME\tACTIVITY\n");
+    display(calender);
+    free(calender);
+    return 0;
+
+}

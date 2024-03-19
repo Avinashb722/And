@@ -1,0 +1,179 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Node* first = NULL;
+struct Node *temp , *temp1 ;
+struct Node
+{
+    int sem, phno;
+    char name[20], usn[20], branch[10];
+    struct Node *next;
+};
+
+struct Node *create()
+{
+    struct Node *newnode = (struct Node *)malloc(sizeof(struct Node));
+    printf("Enter the name, usn, branch, sem, phno of the student: ");
+    scanf(" %s %s %s %d %d", newnode->name, newnode->usn, newnode->branch, &newnode->sem, &newnode->phno);
+    newnode->next = NULL;
+    return newnode;
+}
+
+struct Node *insert_front(struct Node *head)
+{
+    struct Node *newnode = create();
+    if (head == NULL)
+    {
+        head = newnode;
+    }
+    else
+    {
+        newnode->next = head;
+        head = newnode;
+    }
+    return head;
+}
+
+struct Node *insert_end(struct Node *head)
+{
+    struct Node *newnode = create();
+    if (head == NULL)
+    {
+        head = newnode;
+    }
+    else
+    {
+        struct Node *temp = head;
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = newnode;
+    }
+    return head;
+}
+
+struct Node *delete_first(struct Node *head)
+{
+    if (head->next == NULL)
+    {
+        free(head);
+        exit(1);
+    }
+
+    else
+    {
+        struct Node *temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+}
+
+struct Node *delete_last(struct Node *head)
+{
+    if (head->next == NULL)
+    {
+        free(head);
+        exit(1);
+    }
+    else
+    {
+        struct Node *temp = head;
+        struct Node *temp1 = head->next;
+
+        while (temp1->next == NULL)
+        {
+            temp = temp->next;
+            temp1 = temp1->next;
+        }
+
+        temp->next = NULL;
+        free(temp1);
+        return head;
+    }
+}
+
+void displaylist(struct Node *head)
+{
+    printf("____THE DETAILS____\n");
+    while (head != NULL)
+    {
+        printf(" NAME\t:%s\n USN\t:%s\n BRANCH\t:%s\n SEM\t:%d\n PHONE NO\t:%d\n\n\n", head->name, head->usn, head->branch, head->sem, head->phno);
+        head = head->next;
+    }
+}
+
+void freeList(struct Node *head)
+{
+    struct Node *temp;
+    while (head != NULL)
+    {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+int main()
+{
+    struct Node *head = NULL;
+    int ch, n, i,count=0;
+    while (1)
+    {
+    printf("-----------------MENU----------------------\n");
+    printf("\n 1- create a SLL of n emp");
+    printf("\n 2 - Display from beginning");
+    printf("\n 3 - Insert at end");
+    printf("\n 4 - delete at end");
+    printf("\n 5 - Insert at beg");
+    printf("\n 6 - delete at beg");
+    printf("\n 7 -To know  the number of nodes in list \n");
+    printf("\n 8 - exit\n");
+    printf("-------------------------------------------\n");
+ 
+        printf("\n Enter choice : ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:
+            printf("\n Enter no of students : ");
+            scanf("%d", &n);
+            for (i = 0; i < n; i++)
+                head = insert_front(head);
+            break;
+        case 2:
+            displaylist(head);
+            break;
+        case 3:
+            head = insert_end(head);
+            break;
+        case 4:
+            head = delete_last(head);
+            break;
+        case 5:
+            head=insert_front(head);
+            break;
+        case 6:
+            head=delete_first(head);
+            break;
+        case 7:
+            temp=head;
+            while(temp->next!=NULL)
+            {
+                count++;
+                temp=temp->next;
+            }
+            printf("\n Number of Nodes are %d ",count+1);
+            count=0;
+            break;
+        case 8:
+            exit(0);
+        default:
+            printf("wrong choice\n");
+        }
+    }
+    freeList(head);
+
+    return 0;
+}

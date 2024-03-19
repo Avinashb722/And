@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int info;
+    struct node *llink, *rlink;
+};
+struct node *root = NULL;
+struct node *insert(int item, struct node *root)
+{
+    printf("entered insertfunction");
+    struct node *temp, *curr, *prev;
+    curr = root;
+    temp = (struct node *)malloc(sizeof(struct node));
+    temp->info = item;
+    temp->llink = temp->rlink = NULL;
+    prev = curr;
+    if (root == NULL)
+    {
+        root = temp;
+        return root;
+    }
+    while (curr != NULL)
+    {
+        prev = curr;
+        if (curr->info == item)
+        {
+            printf("duplicate element cannot be added");
+            return root;
+        }
+        else if (item < curr->info)
+            curr = curr->llink;
+        else
+            curr = curr->rlink;
+    }
+    if (item < prev->info)
+        prev->llink = temp;
+    else
+        prev->rlink = temp;
+    printf("element %d inserted", temp->info);
+    return root;
+}
+void inorder(struct node *root)
+{
+    if (root == NULL)
+        return;
+    inorder(root->llink);
+    printf("%d\n", root->info);
+    inorder(root->rlink);
+}
+void preorder(struct node *root) 
+{ 
+if(root!=NULL) 
+{ 
+printf("%d\t",root->info); 
+preorder(root->llink); 
+preorder(root->rlink); 
+} 
+} 
+void postorder(struct node *root) 
+{ 
+if(root!=NULL) 
+{ 
+postorder(root->llink); 
+postorder(root->rlink); 
+printf("%d\t",root->info); 
+} 
+} 
+int search(struct node *root,int key)
+{
+	struct node *cur=root;
+	while(cur!=NULL)
+	{
+		if(key==cur->info)
+		return 1;
+		if(key<cur->info)
+		cur=cur->llink;
+		else
+		cur=cur->rlink;
+	}
+	return 0;
+}
+void main()
+{
+    int item, i, choice, ch = 1;
+    do
+    {
+        printf("1:insert 2:display 3:search 4:exit\n");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            printf("enter element to be inserted");
+            scanf("%d", &item);
+            root = insert(item, root);
+            break;
+        case 2:
+            printf("Inorder traversal is ");
+            inorder(root);
+            printf("preorder traversal is ");
+
+            preorder(root);
+            printf("postorder traversal is ");
+
+            postorder(root);
+
+            
+            break;
+        case 3:
+            printf("Enter the value to search\n");
+            int key;
+            scanf("%d",&key);
+            if(search(root,key))
+            {
+                printf("key is found\n");
+            }
+            else{
+                printf("Not found\n");
+            }
+            break;
+            
+        }
+
+        printf("do u want to continue 1/0");
+        scanf("%d", &ch);
+    } while (ch == 1);
+}

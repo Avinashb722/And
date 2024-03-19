@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+#include<conio.h>
+char str[100], pat[100], rep[100], ans[100];
+int i, j, k, m, c, flag = 0;
+
+void stringmatch()
+{
+    i = j = m = c = 0;
+    while (str[m] != '\0')
+    {
+        if (str[m] == pat[i])
+
+        {
+            i++;
+            m++;
+            if (pat[i] == '\0')
+            {
+                flag = 1;
+                for (int k = 0; rep[k] != '\0'; k++, j++)
+                {
+                    ans[j] = rep[k];
+                }
+                i = 0;
+                c = m;
+            }
+        }
+        else
+        {
+            ans[j] = str[c];
+            j++;
+            c++;
+            m = c;
+            i = 0;
+        }
+    }
+    ans[j] = '\0';
+}
+
+int main()
+{
+    printf("\nEnter a main string \n");
+    gets(str);
+    printf("\nEnter a pattern string \n");
+    
+    gets(pat);
+    printf("\nEnter a replace string \n");
+    
+    gets(rep);
+
+    stringmatch();
+    if(flag==1)
+    {
+        printf("The resultant string is %s",ans);
+    }
+    else
+    {
+        printf("\n The pattern not found \n");
+    }
+    return 0;
+}
